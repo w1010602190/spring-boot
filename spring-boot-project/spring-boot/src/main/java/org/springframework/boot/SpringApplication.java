@@ -338,7 +338,7 @@ public class SpringApplication {
 	}
 
 	/**
-	 *  准备Spring 启动环境
+	 *  准备Spring 启动环境,获取{@link ApplicationServletEnvironment} 设置环境
 	 * @param listeners
 	 * @param bootstrapContext     {@link DefaultBootstrapContext}
 	 * @param applicationArguments {@link DefaultApplicationArguments}
@@ -347,7 +347,7 @@ public class SpringApplication {
 	private ConfigurableEnvironment prepareEnvironment(SpringApplicationRunListeners listeners,
 			DefaultBootstrapContext bootstrapContext, ApplicationArguments applicationArguments) {
 		// Create and configure the environment
-		ConfigurableEnvironment environment = getOrCreateEnvironment();  // ApplicationServletEnvironment
+		ConfigurableEnvironment environment = getOrCreateEnvironment();
 		configureEnvironment(environment, applicationArguments.getSourceArgs());
 		ConfigurationPropertySources.attach(environment);
 		listeners.environmentPrepared(bootstrapContext, environment);
@@ -377,7 +377,9 @@ public class SpringApplication {
 	private void prepareContext(DefaultBootstrapContext bootstrapContext, ConfigurableApplicationContext context,
 			ConfigurableEnvironment environment, SpringApplicationRunListeners listeners,
 			ApplicationArguments applicationArguments, Banner printedBanner) {
+		// 设置环境
 		context.setEnvironment(environment);
+		// 设置BeanFactory的转换
 		postProcessApplicationContext(context);
 		applyInitializers(context);
 		listeners.contextPrepared(context);

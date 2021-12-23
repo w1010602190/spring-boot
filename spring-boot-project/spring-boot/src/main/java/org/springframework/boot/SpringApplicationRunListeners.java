@@ -117,6 +117,7 @@ class SpringApplicationRunListeners {
 	private void doWithListeners(String stepName, Consumer<SpringApplicationRunListener> listenerAction,
 			Consumer<StartupStep> stepAction) {
 		StartupStep step = this.applicationStartup.start(stepName);
+		// 传SpringApplicationRunListener的对象执行里面的contextLoaded方法
 		this.listeners.forEach(listenerAction);
 		if (stepAction != null) {
 			stepAction.accept(step);
